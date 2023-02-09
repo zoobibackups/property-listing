@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="(userType == 'Admin' || userType == 'Moderator')">
 
     <v-row justify="space-between" style="margin-top: 20px; margin-left: 0px; ">
       <v-col cols="6">
@@ -38,13 +38,13 @@
             Approve
           </v-tooltip>
           <!-- <v-tooltip :key="index" bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon class="mr-2" v-bind="attrs" v-on="on" @click="goToProfile(item.id)">
-                mdi-eye
-              </v-icon>
-            </template>
-            View
-          </v-tooltip> -->
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon class="mr-2" v-bind="attrs" v-on="on" @click="goToProfile(item.id)">
+                  mdi-eye
+                </v-icon>
+              </template>
+              View
+            </v-tooltip> -->
           <v-tooltip :key="index" bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-icon class="mr-2" v-bind="attrs" v-on="on" @click="editUserFunction(item)">
@@ -68,6 +68,7 @@
     <user-form :open="userFormOpen" user-type="customer" @close="userModalClose" :isCreate="isCreate"
       :prefilledData="editUser" />
   </v-container>
+
 </template>
 <script>
 import userForm from "@/components/userForm";
@@ -85,12 +86,12 @@ import {
   disableUserApi, deleteUserApi
 
 } from "@/services/users";
+
 export default {
   components: { userForm, DateFilter },
   data() {
     return {
-      adminType: JSON.parse(localStorage.getItem("user")).role === "admin",
-      retainUsers: [],
+      userType: JSON.parse(localStorage.getItem('user')).role,
       userFormOpen: false,
       usersStatus: "all",
       timeStatus: "all",
@@ -192,13 +193,6 @@ export default {
     //   },
     //   deep: true,
     // },
-    usersStatus() {
-      this.loading = true;
-      this.getUsersData();
-    },
-    timeStatus() {
-      this.getUsersTimeStats();
-    },
   },
   async mounted() {
     // let code = this.$route?.query?.partner_code;
@@ -206,24 +200,24 @@ export default {
     // this.Partner_selected =
     //   code !== null || code !== undefined ? { Partner_code: code } : null;
     // this.Partner_list.push(code && this.Partner_selected);
-    const date = new Date();
-    if (!localStorage.getItem("filterDate")) {
-      this.initDate.push(`${date.getFullYear()}-${date.getMonth() + 1}-01`);
-      this.initDate.push(
-        `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-      );
-    } else {
-      let datearr = localStorage.getItem("filterDate").split(",");
-      this.initDate.push(
-        datearr[0]
-      );
-      this.initDate.push(
-        datearr[1]
-      );
-      this.dateFilter = [new Date(datearr[0]), new Date(datearr[1])]
-    }
-    this.getUsersData();
-    this.getUsersTimeStats();
+    // const date = new Date();
+    // if (!localStorage.getItem("filterDate")) {
+    //   this.initDate.push(`${date.getFullYear()}-${date.getMonth() + 1}-01`);
+    //   this.initDate.push(
+    //     `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    //   );
+    // } else {
+    //   let datearr = localStorage.getItem("filterDate").split(",");
+    //   this.initDate.push(
+    //     datearr[0]
+    //   );
+    //   this.initDate.push(
+    //     datearr[1]
+    //   );
+    //   this.dateFilter = [new Date(datearr[0]), new Date(datearr[1])]
+    // }
+    // this.getUsersData();
+    // this.getUsersTimeStats();
   },
   methods: {
     disableUser(userId) {

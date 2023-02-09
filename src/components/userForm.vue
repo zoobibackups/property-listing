@@ -82,7 +82,7 @@ export default {
         "Mr", "Mrs"
       ],
       roles: [
-        "User", "Admin"
+        "User", "Admin", "Moderator"
       ],
       search: '',
       dialog: false,

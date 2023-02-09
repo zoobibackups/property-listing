@@ -63,6 +63,7 @@ export default new Vuex.Store({
     loginUser({ commit }, payload) {
       console.log('payload', payload)
       const token = parseJwt(payload.jwtToken)
+      const { id } = payload;
       const user = {
         firstName: payload.firstName,
         lastName: payload.lastName,
@@ -71,6 +72,7 @@ export default new Vuex.Store({
       }
       localStorage.setItem('user', JSON.stringify(user))
       localStorage.setItem('token', payload.jwtToken)
+      localStorage.setItem('id', id)
       commit('loginSuccess', user)
       router.push('/')
     },

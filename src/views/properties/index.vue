@@ -1,5 +1,6 @@
 <template>
-  <v-container>
+  <v-container v-if="(userType == 'Admin' || userType == 'User')">
+
     <v-row justify="space-between" style="margin-left: 0px;">
       <v-col cols="6" class="mt-3">
         <v-row>
@@ -44,10 +45,12 @@
 import {
   getProperties,
   deletePropertyApi,
+  getPropertiesAsUser
 } from "@/services/admin";
 export default {
   data() {
     return {
+      userType: JSON.parse(localStorage.getItem('user')).role,
       listKey: 1,
       properties: {},
       headers: [
@@ -154,11 +157,20 @@ export default {
         limit: this.tableOptions.itemsPerPage,
         page: this.tableOptions.page,
       };
-      getProperties(params).then((res) => {
-        this.properties.data = res.data.rows;
-        this.tableOptions.totalItems = res.data.count;
-        this.loading = false;
-      });
+
+      if (this.userType == 'Admin') {
+        getProperties(params).then((res) => {
+          this.properties.data = res.data.rows;
+          this.tableOptions.totalItems = res.data.count;
+          this.loading = false;
+        });
+      } else {
+        getPropertiesAsUser(JSON.parse(localStorage.getItem('id')), params).then((res) => {
+          this.properties.data = res.data.rows;
+          this.tableOptions.totalItems = res.data.count;
+          this.loading = false;
+        });
+      }
     },
     getReadableDate(date) {
       const d = new Date(date);

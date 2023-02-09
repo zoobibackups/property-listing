@@ -11,3 +11,7 @@ export const deletePropertyApi = (id) => {
 export const getPropertDetailApi = (id) => {
   return http.get(`/properties/${id}`)
 }
+
+export const getPropertiesAsUser = (userID, payload) => {
+  return http.get(`/properties/getByUserid/${userID}`, { params: payload })
+}

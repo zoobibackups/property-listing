@@ -44,6 +44,17 @@
 // Utilities
 import { mapState } from "vuex";
 
+const userType = JSON.parse(localStorage.getItem('user')).role;
+
+
+// ...((JSON.parse(localStorage.getItem('user')).role == "moderator" ||
+//     JSON.parse(localStorage.getItem('user')).role == "admin") ? [{
+//   icon: "mdi-account-group",
+//   title: "Users",
+//   to: "/users",
+// }]: [])
+
+
 export default {
   name: "DashboardCoreDrawer",
 
@@ -56,11 +67,17 @@ export default {
 
   data: () => ({
     items: [
-      {
-        icon: "mdi-account-group",
-        title: "Users",
-        to: "/users",
-      },
+      ...((userType == "Moderator" ||
+        userType == "Admin") ? [{
+          icon: "mdi-account-group",
+          title: "Users",
+          to: "/users",
+        }] : []),
+      // {
+      //   icon: "mdi-account-group",
+      //   title: "Users",
+      //   to: "/users",
+      // },
       // {
       //   icon: "mdi-view-dashboard",
       //   title: "Partnership",
@@ -83,11 +100,19 @@ export default {
       //   title: "Bookings",
       //   to: "/callRequests",
       // },
-      {
-        icon: "mdi-home-analytics",
-        title: "Properties",
-        to: "/properties",
-      },
+      //(userType == 'Admin' || userType == 'User')
+      // {
+      //   icon: "mdi-home-analytics",
+      //   title: "Properties",
+      //   to: "/properties",
+      // },
+
+      ...((userType == "Admin" ||
+        userType == "User") ? [{
+          icon: "mdi-home-analytics",
+          title: "Properties",
+          to: "/properties",
+        }] : []),
       // {
       //   icon: "mdi-cash",
       //   title: "Transactions",
