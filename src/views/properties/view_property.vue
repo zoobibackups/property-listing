@@ -15,6 +15,15 @@
             <v-form>
 
               <v-row class="no-gutters py-2" style="margin-bottom: 25px">
+                <v-col md="12">
+                  <v-card style="margin-right: 5px; margin-left: 5px;">
+                    <v-card-title class="text-h4">
+                      Main Image
+                    </v-card-title>
+                    <v-img :src="apiURL + this.propertyDetails.main_img" height="800"
+                      lazy-src="https://picsum.photos/id/11/10/6" contain class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
                 <v-col md="2">
                   <h5>ID :</h5>
                   <v-text-field v-model="propertyDetails.id" class="purple-input"
@@ -30,21 +39,68 @@
                   <v-text-field v-model="propertyDetails.inspector_name" class="purple-input"
                     style="margin-top: -14px; margin-right: 30px" readonly />
                 </v-col>
-                <v-col md="4">
+                <v-col md="2">
                   <h5>Electricity Meter :</h5>
                   <v-text-field v-model="propertyDetails.electricity_meter" class="purple-input"
                     style="margin-top: -14px; margin-right: 30px" readonly />
                 </v-col>
-                <v-col md="4">
+                <v-col md="2">
+                  <h5>Electricity Meter Reading:</h5>
+                  <v-text-field v-model="propertyDetails.electricity_meter_reading" class="purple-input"
+                    style="margin-top: -14px; margin-right: 30px" readonly />
+                </v-col>
+                <v-col md="2">
                   <h5>Gas Meter :</h5>
                   <v-text-field v-model="propertyDetails.gas_meter" class="purple-input"
                     style="margin-top: -14px; margin-right: 30px" readonly />
                 </v-col>
-                <v-col md="4">
+                <v-col md="2">
+                  <h5>Gas Meter Reading:</h5>
+                  <v-text-field v-model="propertyDetails.gas_meter_reading" class="purple-input"
+                    style="margin-top: -14px; margin-right: 30px" readonly />
+                </v-col>
+                <v-col md="2">
                   <h5>Water Meter :</h5>
                   <v-text-field v-model="propertyDetails.water_meter" class="purple-input"
                     style="margin-top: -14px; margin-right: 30px" readonly />
                 </v-col>
+                <v-col md="2">
+                  <h5>Water Meter Reading:</h5>
+                  <v-text-field v-model="propertyDetails.water_meter_reading" class="purple-input"
+                    style="margin-top: -14px; margin-right: 30px" readonly />
+                </v-col>
+
+
+                <v-col cols="4">
+                  <v-card style="margin-right: 5px; margin-left: 5px;">
+                    <v-card-title class="text-h4">
+                      Electricity Meter Image
+                    </v-card-title>
+                    <v-img :src="apiURL + propertyDetails.electricity_meter_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+
+                <v-col cols="4">
+                  <v-card style="margin-right: 5px;">
+                    <v-card-title class="text-h4">
+                      Gas Meter Image
+                    </v-card-title>
+                    <v-img :src="apiURL + propertyDetails.gas_meter_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+
+                <v-col cols="4">
+                  <v-card style="margin-left: 5px;">
+                    <v-card-title class="text-h4">
+                      Water Meter Image
+                    </v-card-title>
+                    <v-img :src="apiURL + propertyDetails.water_meter_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+
 
                 <v-col md="4">
                   <h5>Smoke Alarm :</h5>
@@ -52,14 +108,51 @@
                     style="margin-top: -14px; margin-right: 30px" readonly />
                 </v-col>
                 <v-col md="4">
-                  <h5>Co Alarm :</h5>
+                  <v-card style="margin-right: 5px;">
+                    <h5>Smoke Alarm Fron Image :</h5>
+                    <v-img :src="apiURL + propertyDetails.smoke_alarm_front_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+                <v-col md="4">
+                  <v-card style="margin-left: 5px;">
+                    <h5>Smoke Alarm Back Image:</h5>
+                    <v-img :src="apiURL + propertyDetails.smoke_alarm_back_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+
+                <v-col md="4">
+                  <h5>Co-Alarm :</h5>
                   <v-text-field v-model="propertyDetails.co_alarm" class="purple-input"
                     style="margin-top: -14px; margin-right: 30px" readonly />
                 </v-col>
                 <v-col md="4">
+                  <v-card style="margin-right: 5px;">
+                    <h5>Co-Alarm Fron Image :</h5>
+                    <v-img :src="apiURL + propertyDetails.co_alarm_front_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+                <v-col md="4">
+                  <v-card style="margin-left: 5px;">
+                    <h5>Co-Alarm Back Image:</h5>
+                    <v-img :src="apiURL + propertyDetails.co_alarm_back_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
+                </v-col>
+
+                <v-col md="6">
                   <h5>Heating System :</h5>
                   <v-text-field v-model="propertyDetails.heating_system" class="purple-input"
                     style="margin-top: -14px; margin-right: 30px" readonly />
+                </v-col>
+                <v-col md="6">
+                  <v-card style="margin-left: 5px;">
+                    <h5>Heating System Image:</h5>
+                    <v-img :src="apiURL + propertyDetails.heating_system_img" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
                 </v-col>
 
                 <v-col md="6">
@@ -85,29 +178,19 @@
 
 
                 <v-col md="6">
-                  <h5>Inspector Signature :</h5>
-                  <v-text-field v-model="propertyDetails.signature_inspector" class="purple-input"
-                    style="margin-top: -14px; margin-right: 30px" readonly />
+                  <v-card style="margin-left: 5px;">
+                    <h5>Inspector Signature :</h5>
+                    <v-img :src="'data:image/png;base64,' + propertyDetails.signature_inspector" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
                 </v-col>
                 <v-col md="6">
-                  <h5>Tenant Signature:</h5>
-                  <v-text-field v-model="propertyDetails.signature_tenant" class="purple-input"
-                    style="margin-top: -14px; margin-right: 30px" readonly />
+                  <v-card style="margin-left: 5px;">
+                    <h5>Tenant Signature:</h5>
+                    <v-img :src="'data:image/png;base64,' + propertyDetails.signature_tenant" height="250" contain
+                      class="grey darken-4"></v-img>
+                  </v-card>
                 </v-col>
-
-
-
-                <v-col md="6">
-                  <h5>Gas Meter Reading :</h5>
-                  <v-text-field v-model="propertyDetails.gas_meter_reading" class="purple-input"
-                    style="margin-top: -14px; margin-right: 30px" readonly />
-                </v-col>
-                <v-col md="6">
-                  <h5>Electricity Meter Reading :</h5>
-                  <v-text-field v-model="propertyDetails.electricity_meter_reading" class="purple-input"
-                    style="margin-top: -14px; margin-right: 30px" readonly />
-                </v-col>
-
 
                 <v-col md="6">
                   <h5>Types :</h5>
@@ -163,7 +246,7 @@
 
           <!-- <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img> -->
           <v-carousel>
-            <v-carousel-item v-for="(item, i) in parts.property_images" :key="i" :src="item.url"
+            <v-carousel-item v-for="(item, i) in parts.property_images" :key="i" :src="apiURL + item.url"
               reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
           </v-carousel>
           <v-card-title>{{ parts.name }}</v-card-title>
@@ -202,6 +285,7 @@ export default {
   },
   data() {
     return {
+      apiURL: process.env.VUE_APP_API + "/",
       propertyDetails: {},
     };
   },
@@ -219,7 +303,22 @@ export default {
     getPropertDetail() {
       getPropertDetailApi(this.$route.params.id).then((res) => {
         this.propertyDetails = res.data;
+        // this.propertyDetails.main_img = this.apiURL + this.propertyDetails.main_img
+        // const imgData = _arrayBufferToBase64(image)
+        this.propertyDetails.signature_inspector = this._arrayBufferToBase64(this.propertyDetails.signature_inspector.data)
+        this.propertyDetails.signature_tenant = this._arrayBufferToBase64(this.propertyDetails.signature_tenant.data)
+        console.log('this.propertyDetails.signature_inspector', this.propertyDetails.signature_inspector);
       });
+    },
+
+    _arrayBufferToBase64(buffer) {
+      var binary = '';
+      var bytes = new Uint8Array(buffer);
+      var len = bytes.byteLength;
+      for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return binary;
     },
 
 
