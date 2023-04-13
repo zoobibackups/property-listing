@@ -62,7 +62,7 @@ export default new Vuex.Store({
   actions: {
     loginUser({ commit }, payload) {
       console.log('payload', payload)
-      const token = parseJwt(payload.jwtToken)
+      // const token = parseJwt(payload.jwtToken)
       const { id } = payload;
       const user = {
         firstName: payload.firstName,
@@ -70,17 +70,17 @@ export default new Vuex.Store({
         email: payload.email,
         role: payload.role,
       }
-      localStorage.setItem('user', JSON.stringify(user))
-      localStorage.setItem('token', payload.jwtToken)
+      localStorage.setItem('user', JSON.stringify(payload))
+      localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlkIjoxLCJpYXQiOjE2ODEyNDA1MDcsImV4cCI6MTY4MTI0NjgwN30.tcFpAISiNiEc9JXYpaGqIiKNboBDTQIULbSxX92IyHk')
       localStorage.setItem('id', id)
-      commit('loginSuccess', user)
+      commit('loginSuccess', payload)
       router.push('/')
     },
     logoutUser({ commit }) {
       localStorage.removeItem('user')
       localStorage.removeItem('token')
       router.push('/')
-      commit('logoutSuccess', user)
+      commit('logoutSuccess', payload)
     },
   },
   modules: {

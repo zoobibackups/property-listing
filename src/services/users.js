@@ -3,6 +3,16 @@ import { http } from './http-common'
 export const getUsers = (payload) => {
   return http.get('/accounts', { params: payload })
 }
+
+export const uploadImage = (formData) => {
+
+  return http.post("/properties/upload_image", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+  });
+}
+
 export const enableUserApi = (id) => {
   return http.get(`/accounts/approve/${id}`)
 }

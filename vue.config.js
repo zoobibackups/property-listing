@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "/property-admin",
+  publicPath: "",
   devServer: {
     disableHostCheck: true,
   },
