@@ -69,6 +69,184 @@
       :prefilledData="editUser" />
   </v-container>
 
+  <v-container
+    id="user-profile"
+    fluid
+    tag="section"
+    v-else-if=" userType == 'User' "
+  >
+    <v-row justify="center">
+      <v-col
+        cols="12"
+        md="8"
+      >
+        <base-material-card>
+          <template v-slot:heading>
+            <div class="text-h3 font-weight-light">
+              Edit Profile
+            </div>
+
+            <div class="text-text-subtitle-1 font-weight-light">
+              Complete your profile
+            </div>
+          </template>
+
+          <v-form>
+            <v-container class="py-0">
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="2"
+                >
+                  <v-text-field
+                    label="ID"
+                    v-model="userDetail.id"
+                    disabled
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="3"
+                >
+                   <v-select v-model="userDetail.title" :items="titles"  label="Title*" />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="7"
+                >
+                  <v-text-field
+                    label="Email Address"
+                    class="purple-input"
+                    v-model="userDetail.email"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="First Name"
+                    v-model="userDetail.firstName"
+                    class="purple-input"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Last Name"
+                    v-model="userDetail.lastName"
+                    class="purple-input"
+                  />
+                </v-col>
+
+                <v-col cols="12">
+                  <v-text-field
+                    label="Company Address"
+                    v-model="userDetail.company_address"
+                    class="purple-input"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    label="Company Name"
+                    v-model="userDetail.company_name"
+                    class="purple-input"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    label="Mobile Number"
+                    v-model="userDetail.mobile_number"
+                    class="purple-input"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-select v-model="userDetail.role" :items="roles" disabled label="Role*" />
+                </v-col>
+
+               
+
+                <v-col
+                  cols="12"
+                  class="text-right"
+                >
+                 <v-alert v-if="alert.show" border="left" dense text :type="alert.type">
+              {{ alert.text }}
+            </v-alert>
+                  <v-btn
+                    color="success"
+                    class="mr-0"
+                    @click="updateUser"
+                  >
+                    Update Profile
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </base-material-card>
+      </v-col>
+
+      <v-col
+        cols="12"
+        md="4"
+        style="margin-top:20px"
+      >
+        <base-material-card
+          class="v-card-profile"
+          :avatar="apiURL + userDetail.company_logo"
+        >
+          <v-card-text class="text-center">
+            <h6 class="text-h4 mb-1 grey--text">
+              {{userDetail.role}}
+            </h6>
+
+            <h4 class="text-h3 font-weight-light mb-3 black--text">
+              {{userDetail.firstName}} {{userDetail.lastName}}
+            </h4>
+
+            <v-file-input
+            :rules="rules"
+            accept="image/*"
+            placeholder="Update profile image"
+            variant="underlined"
+            v-model="file" 
+            prepend-icon="mdi-camera"
+            label="Profile image"
+          ></v-file-input>
+
+            <v-btn
+              color="success"
+              rounded
+              @click="onUpload"
+              class="mr-0"
+            >
+              Update Image
+            </v-btn>
+          </v-card-text>
+        </base-material-card>
+      </v-col>
+    </v-row>
+  </v-container>
+
 </template>
 <script>
 import userForm from "@/components/userForm";
@@ -81,8 +259,9 @@ import {
   getUsers,
   deleteUser,
   getUsersStats,
+  updateUser,
   get_customer_data_in_csv,
-  enableUserApi,
+  enableUserApi,uploadImage,
   disableUserApi, deleteUserApi
 
 } from "@/services/users";
@@ -92,6 +271,12 @@ export default {
   data() {
     return {
       userType: JSON.parse(localStorage.getItem('user')).role,
+      apiURL: process.env.VUE_APP_API + "/",
+      rules: [
+        value => {
+          return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
+        },
+      ],
       userFormOpen: false,
       usersStatus: "all",
       timeStatus: "all",
@@ -100,6 +285,30 @@ export default {
       csvfile: null,
       load: false,
       showLoad: false,
+      alert: {
+        show: false,
+        text: '',
+        type: 'success',
+      },
+      titles: [
+        "Mr", "Mrs"
+      ],
+      roles: [
+        "User", "Admin", "Moderator"
+      ],
+      file: null,
+      userDetail: {
+        id: JSON.parse(localStorage.getItem('user')).id || '',
+        title: JSON.parse(localStorage.getItem('user')).title || '',
+        firstName: JSON.parse(localStorage.getItem('user')).firstName || '',
+        lastName: JSON.parse(localStorage.getItem('user')).lastName || '',
+        email: JSON.parse(localStorage.getItem('user')).email || '',
+        role: JSON.parse(localStorage.getItem('user')).role || '',
+        company_address: JSON.parse(localStorage.getItem('user')).company_address || '',
+        company_name: JSON.parse(localStorage.getItem('user')).company_name || '',
+        mobile_number: JSON.parse(localStorage.getItem('user')).mobile_number || '',
+        company_logo: JSON.parse(localStorage.getItem('user')).company_logo || '',
+      },
       stats: null,
       json_data: null,
       isCreate: true,
@@ -225,6 +434,40 @@ export default {
       disableUserApi(userId).then(res => {
         this.getUsersData()
       })
+    },
+    onUpload() {
+      console.log(this.file)
+      let formData = new FormData();
+
+      formData.append("file", this.file);
+      uploadImage(formData).then(res => {
+        console.log("🚀 ~ file: Users.vue:436 ~ uploadImage ~ res:", res.data)
+        let userInfo = JSON.parse(localStorage.getItem('user'))
+        userInfo['company_logo'] = res.data.path
+        localStorage.setItem('user',JSON.stringify(userInfo));
+        updateUser(this.userDetail.id, {company_logo:res.data.path}).then(res => {
+          window.location.reload();
+      }).catch(err => {
+          window.location.reload();
+      })
+       
+        
+      })
+
+    },
+    updateUser() {
+
+      updateUser(this.userDetail.id, this.userDetail).then(res => {
+          this.alert.show = true
+          this.alert.type = 'success'
+          this.alert.text = 'Profile updated!'
+      }).catch(err => {
+          console.log(err.response.data.error)
+          this.alert.show = true
+          this.alert.type = 'error'
+          this.alert.text = err.response.data.error.toString()
+      })
+
     },
     enableUser(userId) {
       console.log('enabling user', userId);

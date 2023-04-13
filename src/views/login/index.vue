@@ -77,7 +77,7 @@ export default {
         login(payload).then((res) => {
           const response = res.data
           console.log('response', response)
-          this.$store.dispatch('loginUser', response)
+          this.$store.dispatch('loginUser', response.data)
           this.loginLoading = false
         }).catch(err => {
 

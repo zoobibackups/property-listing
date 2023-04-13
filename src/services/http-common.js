@@ -2,7 +2,7 @@ import axios from 'axios'
 // import app from '../main'
 
 const instanceOptions = {
-  baseURL: 'https://propelinspections.com',
+  baseURL: 'https://api.propelinspections.com/inventory',
   headers: {},
 }
 const http = axios.create(instanceOptions)
