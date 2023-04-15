@@ -17,7 +17,7 @@
            
 
               <v-row class="d-flex justify-center align-center" style="margin-top: 25px">
-               <h3>{{propertyDetails?.property_address}}</h3>
+               <h3>{{propertyDetails?.property_address}} </h3>
                 <v-col md="12" class="d-flex justify-center align-center">
                  
                    
